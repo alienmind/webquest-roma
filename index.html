@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Escritores de la Antigua Roma: ¡Una Aventura Literaria!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/theme/league.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/highlight/monokai.min.css">
+    <style>
+        .reveal {
+            font-size: 32px; /* Base size - adjust as needed */
+        }
+
+        .reveal .slides {
+            text-align: left; /* Better text distribution */
+        }
+
+        .reveal p {
+            font-size: 0.7em; /* Smaller paragraph text */
+            line-height: 1.4;
+            margin-bottom: 0.8em;
+        }
+
+        .reveal h1 {
+            font-size: 1.6em;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h2 {
+            font-size: 1.3em;
+            margin-bottom: 0.4em;
+            position: relative;
+            text-align: center;
+            padding: 0 50px;
+        }
+
+        .reveal h3 {
+            font-size: 1.1em;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h2::before,
+        .reveal h2::after {
+            content: '🏛️';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+            opacity: 0.7;
+            color: #aaa;
+        }
+
+        .reveal h2::before {
+            left: 10px;
+        }
+
+        .reveal h2::after {
+            right: 10px;
+        }
+
+        .reveal ul, .reveal ol {
+            font-size: 0.7em;
+            display: block;
+            margin-left: 1em;
+        }
+
+        .reveal section img { margin: 15px 0px; border: 0px; background: none; box-shadow: none; }
+        .reveal .controls button { color: #555; }
+        .reveal .progress { background: rgba(0,0,0,0.2); height: 4px; }
+        .reveal .progress span { background: #555; }
+
+        .crucigrama { display: grid; grid-template-columns: repeat(10, 30px); grid-gap: 2px; }
+        .crucigrama input { width: 30px; height: 30px; text-align: center; font-size: 1.2em; border: 1px solid #ccc; text-transform: uppercase; }
+        .crucigrama input.correcto { background-color: #ccffcc; }
+
+        .kahoot-link { display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; }
+        .kahoot-link:hover { background-color: #3e8e41; }
+
+        .game-container {
+            max-width: 90%;
+            font-size: 0.8em;
+            margin: 1em auto;
+        }
+
+        .drag-container {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .draggable {
+            padding: 10px 20px;
+            background: #4a4a4a;
+            color: white;
+            border-radius: 5px;
+            cursor: move;
+            user-select: none;
+        }
+
+        .dropzone {
+            display: inline-block;
+            min-width: 80px;
+            padding: 5px 10px;
+            border: 2px dashed #666;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .dropzone.active {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .sortable-list {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .sortable-item {
+            padding: 12px 15px;
+            background: #4a4a4a;
+            color: white;
+            margin: 8px 0;
+            border-radius: 5px;
+            cursor: grab;
+            user-select: none;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .sortable-item:active {
+            cursor: grabbing;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .sortable-item.dragging {
+            opacity: 0.5;
+            background: #666;
+        }
+
+        .sortable-item.over {
+            border-top: 2px solid #FFF;
+        }
+
+        .memory-game {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .memory-card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .memory-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .card-front {
+            background: linear-gradient(45deg, #4a4a4a, #2a2a2a);
+            color: transparent;
+        }
+
+        .card-back {
+            background: #3a3a3a;
+            transform: rotateY(180deg);
+            font-size: 0.9em;
+        }
+
+        @keyframes matchShake {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-5deg) scale(1.1); }
+            75% { transform: rotate(5deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+
+        .memory-card.matched .card-inner {
+            animation: matchShake 0.5s ease-in-out;
+            background: #4CAF50;
+        }
+
+        .feedback {
+            font-size: 0.8em;
+            margin: 0.8em 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .feedback.success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .feedback.error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .input-container textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            resize: vertical;
+        }
+
+        .input-container button {
+            align-self: center;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .crossword-container {
+            display: flex;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 0.8em;
+        }
+
+        .crossword-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 35px);
+            gap: 1px;
+            background: #333;
+            padding: 1px;
+        }
+
+        .crossword-cell {
+            width: 35px;
+            height: 35px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .crossword-cell input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            background: white;
+            color: #333;
+        }
+
+        .crossword-cell input:focus {
+            outline: 2px solid #4CAF50;
+        }
+
+        .crossword-cell.black {
+            background: #333;
+        }
+
+        .crossword-cell .number {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            font-size: 0.6em;
+            color: #666;
+        }
+
+        .crossword-clues {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .crossword-clues h3 {
+            margin-bottom: 10px;
+        }
+
+        .crossword-clues ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .crossword-clues li {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .crossword-clues li:hover {
+            color: #4CAF50;
+        }
+
+        .game-instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .game-instructions h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        #wordSearchContainer {
+            display: flex;
+            gap: 40px;
+            max-width: 800px;
+            margin: 20px auto;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        #wordSearchGrid {
+            display: grid;
+            grid-template-columns: repeat(10, 40px);
+            gap: 1px;
+            background: #333;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .word-cell {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .word-cell.selected {
+            background: #4CAF50;
+            color: white;
+            transform: scale(0.95);
+        }
+
+        .word-cell.highlighted {
+            background: #81C784;
+            color: white;
+        }
+
+        #wordList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #wordList li {
+            padding: 8px 15px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            color: transparent;
+            position: relative;
+        }
+
+        #wordList li::before {
+            content: '????????';
+            color: rgba(255, 255, 255, 0.5);
+            position: absolute;
+            left: 15px;
+            top: 8px;
+        }
+
+        #wordList li.found {
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+        }
+
+        #wordList li.found::before {
+            display: none;
+        }
+
+        .legacy-match-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            max-width: 900px;
+            margin: 30px auto;
+            align-items: flex-start;
+        }
+
+        .legacy-column {
+            width: 45%;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .legacy-column h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #eee;
+        }
+
+        .legacy-item {
+            background: #4a4a4a;
+            color: white;
+            padding: 8px 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .legacy-item:hover {
+            background: #5a5a5a;
+            transform: scale(1.02);
+        }
+
+        .legacy-item.selected {
+            border-color: #4CAF50;
+            background: #5a5a5a;
+            transform: scale(1.03);
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        .legacy-item.matched {
+            background: #4CAF50;
+            color: white;
+            cursor: default;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        #legacy-feedback {
+          font-size: 1em;
+        }
+
+        .corner-image {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            max-width: 80px;
+            max-height: 80px;
+            opacity: 0.6;
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        .author-name {
+            color: #FFD700;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        #easter-egg-trigger:hover {
+             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .flying-heart {
+            position: absolute;
+            font-size: 10px;
+            color: red;
+            opacity: 1;
+            animation: growFadeOut 1s ease-out forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes growFadeOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>¡Bienvenidos, Exploradores de la Antigua Roma!</h1>
+                <p>¿Listos para un viaje a través del tiempo y descubrir a los genios literarios que iluminaron Roma?</p>
+                <p style="font-size: 0.8em; margin-top: 20px;">Por <span class="author-name">Eva Margarita García</span></p>
+                <img src="img/roma.jpg" alt="Roma Antigua" style="max-width: 500px;">
+            </section>
+
+            <section>
+                <h2>La Misión: Desenterrar el Legado Literario</h2>
+                <p>Vuestra tarea es convertiros en arqueólogos de las palabras. Investigaremos la vida y obra de los grandes escritores romanos a través de juegos, acertijos y desafíos.</p>
+                <p>¡Prepárense para leer, investigar y divertirse!</p>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Reto 1: Virgilio - El Poeta Épico</h2>
+                    <div class="game-container">
+                        <p>Arrastra las palabras correctas para completar el texto sobre la Eneida:</p>
+                        <div class="drag-container">
+                            <div class="draggable" draggable="true">Eneas</div>
+                            <div class="draggable" draggable="true">Troya</div>
+                            <div class="draggable" draggable="true">Roma</div>
+                            <div class="draggable" draggable="true">Dido</div>
+                        </div>
+                        <div class="text-container">
+                            <p>El héroe <span class="dropzone" data-answer="Eneas">_____</span> huye de 
+                            <span class="dropzone" data-answer="Troya">_____</span> y viaja hasta fundar lo que será 
+                            <span class="dropzone" data-answer="Roma">_____</span>. En su viaje, conoce a la reina 
+                            <span class="dropzone" data-answer="Dido">_____</span>.</p>
+                        </div>
+                        <div id="virgilio-feedback" class="feedback"></div>
+                    </section>
+                
+                <section>
+                    <h2>Solución: Virgilio</h2>
+                    <p>La Eneida narra el viaje de Eneas desde Troya hasta la fundación de Roma, incluyendo su encuentro con la reina Dido.</p>
+                    <p>Este poema épico fue fundamental como propaganda del imperio Romano, conectando sus orígenes con la legendaria Troya.</p>
+                    <img src="img/virgilio.jpg" alt="Virgilio" style="max-width: 400px;">
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Reto 2: Cicerón - El Orador Maestro</h2>
+                    <div class="game-container">
+                        <h3>¡Ordena los Eventos!</h3>
+                        <p>Arrastra los eventos de la vida de Cicerón en orden cronológico:</p>
+                        <div class="sortable-list">
+                            <div class="sortable-item" data-order="1">Nace en Arpino</div>
+                            <div class="sortable-item" data-order="2">Estudia retórica en Roma</div>
+                            <div class="sortable-item" data-order="3">Defiende a Roscio en su primer caso</div>
+                            <div class="sortable-item" data-order="4">Es elegido cónsul</div>
+                            <div class="sortable-item" data-order="5">Descubre la conspiración de Catilina</div>
+                        </div>
+                        <button onclick="checkCiceroOrder()" class="check-button">Verificar Orden</button>
+                        <div id="cicero-feedback" class="feedback"></div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Solución: Cicerón</h2>
+                    <p>Cicerón fue un brillante orador y político que defendió la República Romana.</p>
+                    <p>Sus discursos contra Catilina son considerados obras maestras de la oratoria.</p>
+                    <img src="img/ciceron.jpg" alt="Ciceron" style="max-width: 400px;">
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Reto 3: Memoria Literaria</h2>
+                    <div class="memory-game">
+                        <div class="game-instructions">
+                            <h3>¿Cómo jugar?</h3>
+                            <p>Encuentra las parejas de escritores romanos y sus obras más famosas. Cada escritor tiene una obra correspondiente.</p>
+                            <ul>
+                                <li>Haz clic en una carta para revelarla</li>
+                                <li>Encuentra su pareja (escritor-obra) entre las demás cartas</li>
+                                <li>¡Las parejas correctas permanecerán visibles!</li>
+                            </ul>
+                        </div>
+                        <div class="memory-grid">
+                            <!-- Cards will be generated by JavaScript -->
+                        </div>
+                        <div id="memory-score">Parejas encontradas: 0/6</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Solución: Conexiones Literarias</h2>
+                    <p>Las parejas que has descubierto representan las obras más importantes de cada autor:</p>
+                    <ul>
+                        <li><strong>Virgilio - Eneida:</strong> La epopeya que narra el viaje de Eneas</li>
+                        <li><strong>Ovidio - Metamorfosis:</strong> Poema sobre transformaciones míticas</li>
+                        <li><strong>Cicerón - Catilinarias:</strong> Discursos contra la conspiración de Catilina</li>
+                        <li><strong>Horacio - Odas:</strong> Poemas líricos sobre la vida y la naturaleza</li>
+                        <li><strong>Séneca - Medea:</strong> Tragedia sobre la venganza de una hechicera</li>
+                        <li><strong>Plauto - Aulularia:</strong> Comedia sobre un avaro y su olla de oro</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Reto 4: Sopa de Letras Latina</h2>
+                    <div class="game-instructions">
+                        <h3>¿Cómo jugar?</h3>
+                        <p>Encuentra las palabras latinas ocultas en la cuadrícula. Puedes buscar horizontal o verticalmente.</p>
+                        <ul>
+                            <li>Haz clic y arrastra para seleccionar las letras</li>
+                            <li>Las palabras encontradas se marcarán en verde</li>
+                            <li>¡Encuentra todas las palabras para completar el reto!</li>
+                        </ul>
+                    </div>
+                    <div id="wordSearchContainer">
+                        <div>
+                            <div id="wordSearchGrid"></div>
+                        </div>
+                        <div>
+                            <h3>Palabras a encontrar:</h3>
+                            <ul id="wordList"></ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Solución: Palabras Latinas</h2>
+                    <ul>
+                        <li><strong>POETA</strong> - Escritor de versos</li>
+                        <li><strong>LIBER</strong> - Libro</li>
+                        <li><strong>VERBA</strong> - Palabras</li>
+                        <li><strong>AUCTOR</strong> - Autor</li>
+                        <li><strong>CARMEN</strong> - Poema</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Reto 5: Conecta el Legado</h2>
+                    <div class="game-instructions">
+                        <h3>¿Cómo jugar?</h3>
+                        <p>Une a cada escritor romano con el área o género que más influenció. Haz clic en un escritor y luego en su influencia correcta.</p>
+                        <ul>
+                            <li>Haz clic en un escritor (columna izquierda).</li>
+                            <li>Luego haz clic en la influencia correcta (columna derecha).</li>
+                            <li>¡Las parejas correctas se conectarán visualmente!</li>
+                        </ul>
+                    </div>
+                    <div class="legacy-match-container">
+                        <div class="legacy-column" id="writersColumn">
+                            <h3>Escritores</h3>
+                            <div class="legacy-item" data-id="virgilio">Virgilio</div>
+                            <div class="legacy-item" data-id="ciceron">Cicerón</div>
+                            <div class="legacy-item" data-id="ovidio">Ovidio</div>
+                            <div class="legacy-item" data-id="seneca">Séneca</div>
+                            <div class="legacy-item" data-id="plauto">Plauto</div>
+                        </div>
+                        <div class="legacy-column" id="influencesColumn">
+                            <h3>Influencia Principal</h3>
+                            <div class="legacy-item" data-match="ciceron">Oratoria y Prosa Filosófica</div>
+                            <div class="legacy-item" data-match="plauto">Comedia Teatral (Situacional)</div>
+                            <div class="legacy-item" data-match="virgilio">Poesía Épica Occidental</div>
+                            <div class="legacy-item" data-match="seneca">Tragedia y Filosofía Estoica</div>
+                            <div class="legacy-item" data-match="ovidio">Mitología y Poesía Amorosa</div>
+                        </div>
+                    </div>
+                    <div id="legacy-feedback" class="feedback" style="text-align: center; margin-top: 20px;"></div>
+                </section>
+
+                <section>
+                    <h2>Solución: El Legado de Roma</h2>
+                    <p>Las conexiones correctas muestran cómo estos gigantes literarios moldearon el futuro:</p>
+                    <ul>
+                        <li><strong>Virgilio:</strong> Su <em>Eneida</em> definió la poesía épica para siglos.</li>
+                        <li><strong>Cicerón:</strong> Estableció el estándar para la oratoria y la escritura filosófica en latín.</li>
+                        <li><strong>Ovidio:</strong> Sus <em>Metamorfosis</em> se convirtieron en la fuente principal de mitología clásica para artistas y escritores posteriores.</li>
+                        <li><strong>Séneca:</strong> Influyó en la tragedia renacentista (como Shakespeare) y popularizó el estoicismo.</li>
+                        <li><strong>Plauto:</strong> Sus tramas y personajes cómicos fueron adaptados por Molière, Shakespeare y comedias modernas.</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section>
+                <h2>¡Conclusión!</h2>
+                <p>¡Felicidades, arqueólogos literarios! Habéis desenterrado el tesoro de los escritores romanos.</p>
+                <p>Esperamos que este viaje os haya inspirado a explorar más la literatura clásica.</p>
+                <img src="img/biblioteca.jpg" alt="Biblioteca" style="max-width: 500px;">
+            </section>
+
+            <section>
+                <h2>Bibliografía y Recursos</h2>
+                <ul>
+                    <li><a href="https://www.perseus.tufts.edu/hopper/" target="_blank">Perseus Digital Library</a> - Textos originales de autores clásicos</li>
+                    <li><a href="https://thelatinlibrary.com/" target="_blank">The Latin Library</a> - Colección de textos latinos</li>
+                    <li><a href="https://www.livius.org/articles/person/virgil/" target="_blank">Livius.org: Virgilio</a> - Biografía y contexto histórico</li>
+                    <li><a href="https://www.britannica.com/biography/Cicero" target="_blank">Encyclopaedia Britannica: Cicerón</a> - Vida y obra</li>
+                    <li><a href="https://www.amazon.es/Acepta-inevitable-estoicas-autoconocimiento-singulares/dp/8441546762" target="_blank">Acepta lo inevitable. Citas estoicas para el autoconocimiento - García, Eva Margarita</a> - Relacionado con el estoicismo de Séneca</li>
+                </ul>
+                <p style="font-size: 0.8em; margin-top: 20px;">Algunas imágenes utilizadas son de dominio público o tienen licencia Creative Commons.</p>
+                <p style="font-size: 0.4em; margin-top: 40px; text-align: center; position: relative;">
+                    Gracias a <span id="easter-egg-trigger" class="author-name" style="cursor: pointer; display: inline-block;">Jaime López</span> por haber codificado esta aplicación
+                    <span id="heart-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></span>
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/highlight/highlight.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ],
+            controls: true,
+            progress: true,
+            center: true,
+            navigationMode: 'default',
+            transition: 'slide',
+            slideNumber: true,
+            keyboard: true,
+            overview: true
+        });
+
+        function verificarVirgilio() {
+            const respuesta = document.getElementById('respuestaVirgilio').value.toLowerCase();
+            const resultado = document.getElementById('resultadoVirgilio');
+
+            if (respuesta === 'eneas') {
+                resultado.textContent = "¡Correcto! Eneas es el héroe que huye de Troya.";
+                resultado.style.color = "green";
+            } else {
+                resultado.textContent = "Incorrecto. Intenta de nuevo.";
+                resultado.style.color = "red";
+            }
+        }
+
+        function evaluarResumenCiceron() {
+            const resumen = document.getElementById('resumenCiceron').value;
+            const feedback = document.getElementById('feedbackCiceron');
+
+            if (resumen.length > 100) {
+                feedback.textContent = "¡Excelente resumen! Demuestras conocer la importancia de Cicerón.";
+                feedback.style.color = "green";
+            } else {
+                feedback.textContent = "Tu resumen es un poco corto. Intenta añadir más detalles sobre la importancia de Cicerón.";
+                feedback.style.color = "orange";
+            }
+        }
+
+        function evaluarReflexion() {
+            const reflexion = document.getElementById('reflexionFinal').value;
+            const feedback = document.getElementById('feedbackReflexion');
+
+            if (reflexion.length > 150) {
+                feedback.textContent = "¡Una reflexión muy interesante!  Gracias por compartir tu opinión.";
+                feedback.style.color = "green";
+            } else {
+                feedback.textContent = "Tu reflexión podría ser más elaborada. Considera añadir más detalles sobre por qué el escritor que elegiste es relevante hoy en día.";
+                feedback.style.color = "orange";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropzones = document.querySelectorAll('.dropzone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', e.target.innerText);
+                    e.target.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', e => {
+                    e.target.classList.remove('dragging');
+                });
+            });
+
+            dropzones.forEach(dropzone => {
+                dropzone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    dropzone.classList.add('active');
+                });
+
+                dropzone.addEventListener('dragleave', () => {
+                    dropzone.classList.remove('active');
+                });
+
+                dropzone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const text = e.dataTransfer.getData('text/plain');
+                    dropzone.textContent = text;
+                    dropzone.classList.remove('active');
+                    
+                    checkVirgilioAnswers();
+                });
+            });
+        });
+
+        function checkVirgilioAnswers() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            let allCorrect = true;
+
+            dropzones.forEach(zone => {
+                const isCorrect = zone.textContent === zone.dataset.answer;
+                zone.style.backgroundColor = isCorrect ? 'rgba(76, 175, 80, 0.2)' : 'rgba(244, 67, 54, 0.2)';
+                if (!isCorrect) allCorrect = false;
+            });
+
+            const feedback = document.getElementById('virgilio-feedback');
+            feedback.textContent = allCorrect ? '¡Correcto! Has completado el texto perfectamente.' : 'Algunas respuestas no son correctas. ¡Inténtalo de nuevo!';
+            feedback.className = `feedback ${allCorrect ? 'success' : 'error'}`;
+        }
+
+        function initSortableList() {
+            const items = document.querySelectorAll('.sortable-item');
+            
+            items.forEach(item => {
+                item.setAttribute('draggable', true);
+                
+                item.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.dataset.order);
+                    item.classList.add('dragging');
+                });
+
+                item.addEventListener('dragend', () => {
+                    item.classList.remove('dragging');
+                });
+
+                item.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    const dragging = document.querySelector('.dragging');
+                    const items = [...document.querySelectorAll('.sortable-item:not(.dragging)')];
+                    const afterElement = items.reduce((closest, child) => {
+                        const box = child.getBoundingClientRect();
+                        const offset = e.clientY - box.top - box.height / 2;
+                        if (offset < 0 && offset > closest.offset) {
+                            return { offset: offset, element: child };
+                        } else {
+                            return closest;
+                        }
+                    }, { offset: Number.NEGATIVE_INFINITY }).element;
+
+                    if (afterElement) {
+                        afterElement.parentElement.insertBefore(dragging, afterElement);
+                    } else {
+                        item.parentElement.appendChild(dragging);
+                    }
+                });
+            });
+        }
+
+        function checkCiceroOrder() {
+            const items = document.querySelectorAll('.sortable-item');
+            let isCorrect = true;
+            
+            items.forEach((item, index) => {
+                if (parseInt(item.dataset.order) !== index + 1) {
+                    isCorrect = false;
+                }
+            });
+
+            const feedback = document.getElementById('cicero-feedback');
+            feedback.textContent = isCorrect ? '¡Correcto! Has ordenado los eventos perfectamente.' : 'El orden no es correcto. ¡Inténtalo de nuevo!';
+            feedback.className = `feedback ${isCorrect ? 'success' : 'error'}`;
+        }
+
+        function initMemoryGame() {
+            const authors = [
+                'Virgilio', 'Ovidio', 'Cicerón', 'Horacio', 'Séneca', 'Plauto',
+                'Eneida', 'Metamorfosis', 'Catilinarias', 'Odas', 'Medea', 'Aulularia'
+            ];
+
+            const cards = [...authors, ...authors].map((content, index) => ({
+                id: Math.floor(index / 2),
+                content,
+                uniqueId: index
+            }));
+
+            shuffleArray(cards);
+
+            const grid = document.querySelector('.memory-grid');
+            grid.innerHTML = cards.map(card => `
+                <div class="memory-card" data-id="${card.id}" data-unique="${card.uniqueId}">
+                    <div class="card-inner">
+                        <div class="card-front">?</div>
+                        <div class="card-back">${card.content}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            let flippedCards = [];
+            let canFlip = true;
+
+            grid.addEventListener('click', e => {
+                const card = e.target.closest('.memory-card');
+                if (!card || !canFlip || card.classList.contains('flipped')) return;
+
+                flipCard(card);
+                flippedCards.push(card);
+
+                if (flippedCards.length === 2) {
+                    canFlip = false;
+                    checkMatch();
+                }
+            });
+
+            function flipCard(card) {
+                card.classList.add('flipped');
+            }
+
+            function checkMatch() {
+                const [card1, card2] = flippedCards;
+                const match = card1.dataset.id === card2.dataset.id;
+
+                if (match) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    flippedCards = [];
+                    canFlip = true;
+                    updateScore();
+                } else {
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        flippedCards = [];
+                        canFlip = true;
+                    }, 1000);
+                }
+            }
+
+            function updateScore() {
+                const matched = document.querySelectorAll('.memory-card.matched').length / 2;
+                document.getElementById('memory-score').textContent = `Parejas encontradas: ${matched}/6`;
+            }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function initWordSearch() {
+            const gridElement = document.getElementById('wordSearchGrid');
+            const wordListElement = document.getElementById('wordList');
+
+            if (!gridElement || !wordListElement) {
+                console.error("Word search container elements ('wordSearchGrid' or 'wordList') not found!");
+                return;
+            }
+
+            const words = ['POETA', 'LIBER', 'VERBA', 'AUCTOR', 'CARMEN'];
+            const gridSize = 10;
+            let grid = [];
+            let foundWords = new Set();
+            let selectedCells = [];
+            
+            for (let i = 0; i < gridSize; i++) {
+                grid[i] = new Array(gridSize).fill('');
+            }
+            
+            words.forEach(word => {
+                let placed = false;
+                let attempts = 0;
+                while (!placed && attempts < 100) {
+                    const direction = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+                    const row = Math.floor(Math.random() * gridSize);
+                    const col = Math.floor(Math.random() * gridSize);
+                    
+                    if (canPlaceWord(word, row, col, direction)) {
+                        placeWord(word, row, col, direction);
+                        placed = true;
+                    }
+                    attempts++;
+                }
+                if (!placed) {
+                    console.warn(`Could not place word: ${word}`);
+                }
+            });
+            
+            for (let i = 0; i < gridSize; i++) {
+                for (let j = 0; j < gridSize; j++) {
+                    if (grid[i][j] === '') {
+                        grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                    }
+                }
+            }
+            
+            gridElement.innerHTML = '';
+            grid.forEach((row, i) => {
+                row.forEach((letter, j) => {
+                    const cell = document.createElement('div');
+                    cell.className = 'word-cell';
+                    cell.textContent = letter;
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    gridElement.appendChild(cell);
+                });
+            });
+            
+            wordListElement.innerHTML = words.map(word => `<li>${word}</li>`).join('');
+            
+            let isSelecting = false;
+            
+            gridElement.addEventListener('mousedown', e => {
+                const cell = e.target.closest('.word-cell');
+                if (!cell) return;
+                isSelecting = true;
+                selectedCells = [cell];
+                cell.classList.add('selected');
+                e.preventDefault();
+            });
+            
+            gridElement.addEventListener('mouseover', e => {
+                if (!isSelecting) return;
+                const cell = e.target.closest('.word-cell');
+                if (cell && !selectedCells.includes(cell)) {
+                    const lastCell = selectedCells[selectedCells.length - 1];
+                    const lastRow = parseInt(lastCell.dataset.row);
+                    const lastCol = parseInt(lastCell.dataset.col);
+                    const currentRow = parseInt(cell.dataset.row);
+                    const currentCol = parseInt(cell.dataset.col);
+
+                    if (Math.abs(currentRow - lastRow) <= 1 && Math.abs(currentCol - lastCol) <= 1) {
+                        if (selectedCells.length > 1) {
+                            const firstCell = selectedCells[0];
+                            const firstRow = parseInt(firstCell.dataset.row);
+                            const firstCol = parseInt(firstCell.dataset.col);
+                            const currentDeltaRow = currentRow - firstRow;
+                            const currentDeltaCol = currentCol - firstCol;
+                            const lastDeltaRow = lastRow - firstRow;
+                            const lastDeltaCol = lastCol - firstCol;
+
+                            const isHorizontal = currentDeltaRow === 0 && lastDeltaRow === 0;
+                            const isVertical = currentDeltaCol === 0 && lastDeltaCol === 0;
+                            const isDiagonal = Math.abs(currentDeltaRow) === Math.abs(currentDeltaCol) && Math.abs(lastDeltaRow) === Math.abs(lastDeltaCol) && Math.sign(currentDeltaRow) === Math.sign(lastDeltaRow) && Math.sign(currentDeltaCol) === Math.sign(lastDeltaCol);
+
+                            if (isHorizontal || isVertical || isDiagonal) {
+                                selectedCells.push(cell);
+                                cell.classList.add('selected');
+                            }
+                        } else {
+                            selectedCells.push(cell);
+                            cell.classList.add('selected');
+                        }
+                    }
+                }
+            });
+            
+            window.addEventListener('mouseup', () => {
+                if (!isSelecting) return;
+                isSelecting = false;
+                
+                const word = getSelectedWord();
+                const reversedWord = word.split('').reverse().join('');
+
+                if ((words.includes(word) || words.includes(reversedWord)) && !foundWords.has(word) && !foundWords.has(reversedWord) ) {
+                     const correctWord = words.includes(word) ? word : reversedWord;
+                     foundWords.add(correctWord);
+                    selectedCells.forEach(cell => {
+                        cell.classList.remove('selected');
+                        cell.classList.add('highlighted');
+                    });
+                    markWordAsFound(correctWord);
+                    
+                    if (foundWords.size === words.length) {
+                        setTimeout(() => {
+                           alert('¡Felicitaciones! Has encontrado todas las palabras.');
+                        }, 300);
+                    }
+                } else {
+                    selectedCells.forEach(cell => cell.classList.remove('selected'));
+                }
+                selectedCells = [];
+            });
+            
+             function canPlaceWord(word, row, col, direction) {
+                 if (direction === 'horizontal') {
+                     if (col + word.length > gridSize) return false;
+                     for (let i = 0; i < word.length; i++) {
+                         if (grid[row][col + i] !== '' && grid[row][col + i] !== word[i]) return false;
+                     }
+                 } else {
+                     if (row + word.length > gridSize) return false;
+                     for (let i = 0; i < word.length; i++) {
+                         if (grid[row + i][col] !== '' && grid[row + i][col] !== word[i]) return false;
+                     }
+                 }
+                 return true;
+             }
+
+             function placeWord(word, row, col, direction) {
+                 for (let i = 0; i < word.length; i++) {
+                     if (direction === 'horizontal') {
+                         grid[row][col + i] = word[i];
+                     } else {
+                         grid[row + i][col] = word[i];
+                     }
+                 }
+             }
+            function getSelectedWord() {
+                 return selectedCells.map(cell => cell.textContent).join('');
+            }
+            
+            function markWordAsFound(word) {
+                const wordItems = wordListElement.getElementsByTagName('li');
+                for (const item of wordItems) {
+                    if (item.textContent === word) {
+                        item.classList.add('found');
+                        break;
+                    }
+                }
+            }
+        }
+
+        function initLegacyMatch() {
+            const writersColumn = document.getElementById('writersColumn');
+            const influencesColumn = document.getElementById('influencesColumn');
+            const feedbackElement = document.getElementById('legacy-feedback');
+            
+            if (!writersColumn || !influencesColumn || !feedbackElement) {
+                 console.error("Legacy match elements not found!");
+                 return;
+            }
+
+            let selectedWriter = null;
+            let matchedPairs = 0;
+            const totalPairs = writersColumn.querySelectorAll('.legacy-item').length;
+
+            writersColumn.addEventListener('click', (e) => {
+                const target = e.target.closest('.legacy-item');
+                if (!target || target.classList.contains('matched')) return;
+
+                if (selectedWriter === target) {
+                    selectedWriter.classList.remove('selected');
+                    selectedWriter = null;
+                } else {
+                    if (selectedWriter) {
+                        selectedWriter.classList.remove('selected');
+                    }
+                    selectedWriter = target;
+                    selectedWriter.classList.add('selected');
+                    feedbackElement.textContent = `Has seleccionado a ${selectedWriter.textContent}. Ahora haz clic en su influencia.`;
+                    feedbackElement.className = 'feedback';
+                }
+            });
+
+            influencesColumn.addEventListener('click', (e) => {
+                const target = e.target.closest('.legacy-item');
+                if (!target || target.classList.contains('matched') || !selectedWriter) return;
+
+                const writerId = selectedWriter.dataset.id;
+                const influenceMatch = target.dataset.match;
+
+                if (writerId === influenceMatch) {
+                    selectedWriter.classList.remove('selected');
+                    selectedWriter.classList.add('matched');
+                    target.classList.add('matched');
+                    
+                    matchedPairs++;
+                    feedbackElement.textContent = `¡Correcto! ${selectedWriter.textContent} está conectado con ${target.textContent}.`;
+                    feedbackElement.className = 'feedback success';
+                    selectedWriter = null;
+
+                    if (matchedPairs === totalPairs) {
+                         setTimeout(() => {
+                            feedbackElement.textContent = '¡Excelente! Has conectado todo el legado correctamente.';
+                         }, 500);
+                    }
+
+                } else {
+                    feedbackElement.textContent = `Incorrecto. ${selectedWriter.textContent} no está directamente relacionado con ${target.textContent}. Intenta de nuevo.`;
+                    feedbackElement.className = 'feedback error';
+                    selectedWriter.classList.remove('selected');
+                    selectedWriter = null;
+                }
+            });
+        }
+
+        function initEasterEgg() {
+            const trigger = document.getElementById('easter-egg-trigger');
+            const heartContainer = document.getElementById('heart-container');
+
+            if (!trigger || !heartContainer) {
+                 console.error("Easter egg elements not found!");
+                 return;
+            }
+
+            let clickCount = 0;
+            let lastClickTime = 0;
+            const tripleClickThreshold = 500;
+
+            trigger.addEventListener('click', (event) => {
+                const now = Date.now();
+
+                if (now - lastClickTime < tripleClickThreshold) {
+                    clickCount++;
+                } else {
+                    clickCount = 1;
+                }
+                lastClickTime = now;
+
+                if (clickCount >= 3) {
+                    createHeart(trigger, heartContainer);
+                }
+            });
+        }
+
+        function createHeart(triggerElement, container) {
+            const heart = document.createElement('div');
+            heart.textContent = '❤️';
+            heart.className = 'flying-heart';
+
+            const rect = triggerElement.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+
+            const baseX = rect.left - containerRect.left + (rect.width / 2);
+            const baseY = rect.top - containerRect.top + (rect.height / 2);
+
+            const offsetX = (Math.random() - 0.5) * 60;
+            const offsetY = (Math.random() - 0.5) * 40;
+
+            heart.style.left = `${baseX + offsetX}px`;
+            heart.style.top = `${baseY + offsetY}px`;
+
+            container.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initSortableList();
+            initMemoryGame();
+            initWordSearch();
+            initLegacyMatch();
+            initEasterEgg();
+        });
+    </script>
+
+
+</body>
+</html>
