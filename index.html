@@ -1153,7 +1153,8 @@
         });
 
         function checkVirgilioAnswers() {
-            const dropzones = document.querySelectorAll('.dropzone');
+            // Only target dropzones from Reto 1 by excluding those with the ovidio-dropzone class
+            const dropzones = document.querySelectorAll('.dropzone:not(.ovidio-dropzone)');
             let allCorrect = true;
 
             dropzones.forEach(zone => {
@@ -1206,19 +1207,35 @@
         }
 
         function checkCiceroOrder() {
-            const list = document.getElementById('cicero-list');
-            const items = Array.from(list.children);
+            // Get the sortable list container
+            const sortableList = document.querySelector('.sortable-list');
+            if (!sortableList) {
+                console.error("Sortable list container not found");
+                return;
+            }
             
-            // Expected order: 1, 2, 3, 4, 5
-            const expected = [1, 2, 3, 4, 5];
+            // Get items in their current DOM order
+            const items = Array.from(sortableList.querySelectorAll('.sortable-item'));
             
-            // Get current order
-            const current = items.map(item => parseInt(item.dataset.order));
+            if (items.length === 0) {
+                console.error("No sortable items found");
+                return;
+            }
             
-            // Compare arrays
-            const isCorrect = JSON.stringify(current) === JSON.stringify(expected);
+            // Get current data-order values in the DOM order
+            const currentOrder = items.map(item => parseInt(item.dataset.order));
+            console.log("Current order of data-order values:", currentOrder);
+            
+            // Check if the data-order values are in ascending order (1,2,3,4,5)
+            const expectedOrder = [1, 2, 3, 4, 5];
+            const isCorrect = currentOrder.every((value, index) => value === expectedOrder[index]);
             
             const feedback = document.getElementById('cicero-feedback');
+            if (!feedback) {
+                console.error("Feedback element not found");
+                return;
+            }
+            
             feedback.textContent = isCorrect ? '¡Correcto! Has ordenado los eventos perfectamente.' : 'El orden no es correcto. ¡Inténtalo de nuevo!';
             feedback.className = `feedback ${isCorrect ? 'success' : 'error'}`;
         }
@@ -2052,19 +2069,35 @@
         }
         
         function checkCiceroOrder() {
-            const list = document.getElementById('cicero-list');
-            const items = Array.from(list.children);
+            // Get the sortable list container
+            const sortableList = document.querySelector('.sortable-list');
+            if (!sortableList) {
+                console.error("Sortable list container not found");
+                return;
+            }
             
-            // Expected order: 1, 2, 3, 4, 5
-            const expected = [1, 2, 3, 4, 5];
+            // Get items in their current DOM order
+            const items = Array.from(sortableList.querySelectorAll('.sortable-item'));
             
-            // Get current order
-            const current = items.map(item => parseInt(item.dataset.order));
+            if (items.length === 0) {
+                console.error("No sortable items found");
+                return;
+            }
             
-            // Compare arrays
-            const isCorrect = JSON.stringify(current) === JSON.stringify(expected);
+            // Get current data-order values in the DOM order
+            const currentOrder = items.map(item => parseInt(item.dataset.order));
+            console.log("Current order of data-order values:", currentOrder);
+            
+            // Check if the data-order values are in ascending order (1,2,3,4,5)
+            const expectedOrder = [1, 2, 3, 4, 5];
+            const isCorrect = currentOrder.every((value, index) => value === expectedOrder[index]);
             
             const feedback = document.getElementById('cicero-feedback');
+            if (!feedback) {
+                console.error("Feedback element not found");
+                return;
+            }
+            
             feedback.textContent = isCorrect ? '¡Correcto! Has ordenado los eventos perfectamente.' : 'El orden no es correcto. ¡Inténtalo de nuevo!';
             feedback.className = `feedback ${isCorrect ? 'success' : 'error'}`;
         }
