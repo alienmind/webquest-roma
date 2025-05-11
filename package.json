@@ -1,12 +1,14 @@
 {
   "scripts": {
     "start": "npx http-server",
-    "build": "mkdir -p dist && cp -r index.html styles.css node_modules/reveal.js/dist/* dist/"
+    "build": "mkdir -p dist && cp -r index.html styles.css node_modules/reveal.js/dist/* dist/",
+    "bundle": "node bundle.js"
   },
   "dependencies": {
     "reveal.js": "^5.2.1"
   },
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "mime-types": "^3.0.1"
   }
 }
